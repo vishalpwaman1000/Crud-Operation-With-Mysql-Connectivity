@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Queries>
+	<AddInformation>
+		<!-- #UserName, EmailID, MobileNumber, Salary, Gender -->
+		<![CDATA[
+		INSERT INTO CrudApplication(UserName, EmailID, MobileNumber, Salary, Gender) 
+					         VALUES (@UserName, @EmailID, @MobileNumber, @Salary, @Gender);
+		]]>
+	</AddInformation>
+	<ReadInformation>
+		<![CDATA[
+		SELECT * 
+		FROM CrudApplication
+		where IsActive=1;
+		]]>
+	</ReadInformation>
+	<ReadInformationById>
+		<![CDATA[
+		SELECT * 
+		FROM CrudApplication
+		WHERE UserId=@Id;
+		]]>
+	</ReadInformationById>
+	<UpdateAllInformationById>
+		<![CDATA[
+		UPDATE CrudApplication
+		SET UserName=@UserName, 
+		    EmailID=@EmailID, 
+			MobileNumber=@MobileNumber, 
+			Salary=@Salary, 
+			Gender=@Gender
+		WHERE UserId=@UserId;
+		]]>
+	</UpdateAllInformationById>
+	<UpdateOneInformationById>
+		<![CDATA[
+		UPDATE CrudApplication
+		SET Salary=@Salary
+		WHERE UserId=@UserId;
+		]]>
+	</UpdateOneInformationById>
+	<DeleteInformationByID>
+		<![CDATA[
+		UPDATE CrudApplication
+		SET IsActive=0
+		WHERE UserId=@Id;
+		]]>
+	</DeleteInformationByID>
+	<DeleteAllInformation>
+		<![CDATA[
+		DELETE 
+		FROM CrudApplication
+		WHERE IsActive=0;
+		]]>
+	</DeleteAllInformation>
+	<GetAllDeleteInformation>
+		<![CDATA[
+			SELECT *
+			FROM CrudApplication
+			WHERE IsActive=0;
+		]]>
+	</GetAllDeleteInformation>
+</Queries>
