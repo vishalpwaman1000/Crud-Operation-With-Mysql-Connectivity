@@ -309,19 +309,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\visha\\.nuget\\packages\\": {}
+    "C:\\Users\\Vishal Prabhakar\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\visha\\source\\repos\\CrudOperation+MysqlDB\\BackEnd\\CrudOperation+MysqlDB\\CrudOperation+MysqlDB.csproj",
+      "projectUniqueName": "D:\\Vishalpwaman1000\\Crud-Operation-With-Mysql-Connectivity\\CrudOperation+MysqlDB\\CrudOperation+MysqlDB.csproj",
       "projectName": "CrudOperation+MysqlDB",
-      "projectPath": "C:\\Users\\visha\\source\\repos\\CrudOperation+MysqlDB\\BackEnd\\CrudOperation+MysqlDB\\CrudOperation+MysqlDB.csproj",
-      "packagesPath": "C:\\Users\\visha\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\visha\\source\\repos\\CrudOperation+MysqlDB\\BackEnd\\CrudOperation+MysqlDB\\obj\\",
+      "projectPath": "D:\\Vishalpwaman1000\\Crud-Operation-With-Mysql-Connectivity\\CrudOperation+MysqlDB\\CrudOperation+MysqlDB.csproj",
+      "packagesPath": "C:\\Users\\Vishal Prabhakar\\.nuget\\packages\\",
+      "outputPath": "D:\\Vishalpwaman1000\\Crud-Operation-With-Mysql-Connectivity\\CrudOperation+MysqlDB\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\visha\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Vishal Prabhakar\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -378,7 +378,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.404\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.403\\RuntimeIdentifierGraph.json"
       }
     }
   }

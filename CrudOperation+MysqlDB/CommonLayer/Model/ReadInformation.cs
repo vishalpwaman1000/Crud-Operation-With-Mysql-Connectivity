@@ -9,7 +9,7 @@ namespace CrudOperation_MysqlDB.CommonLayer.Model
     
     public class ReadInformationResponse
     {
-        public bool IsSuccess { get; set; }
+        public bool IsSuccess { get; set; } 
         public string Message { get; set; }
         public List<ReadInformation> readInformation { get; set; }
     }
