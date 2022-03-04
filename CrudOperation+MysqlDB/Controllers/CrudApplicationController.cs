@@ -25,6 +25,59 @@ namespace CrudOperation_MysqlDB.Controllers
 
         [HttpPost]
         //[Route("AddUserInformation")]
+        public async Task<IActionResult> RegisterUser(RegisterUserRequest request)
+        {
+            RegisterUserResponse response = new RegisterUserResponse();
+            _logger.LogInformation($"RegisterUser Api Calling {JsonConvert.SerializeObject(request)}");
+            try
+            {
+
+                response = await _crudApplicationSL.RegisterUser(request);
+                if (!response.IsSuccess)
+                {
+                    return BadRequest(new { IsSuccess = response.IsSuccess, Message = response.Message });
+                }
+
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = ex.Message;
+                _logger.LogError($"RegisterUser Controller Error => {ex.Message}");
+                return BadRequest(new { IsSuccess = response.IsSuccess, Message = ex.Message });
+            }
+
+            return Ok(new { IsSuccess = response.IsSuccess, Message = response.Message });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UserLogin(UserLoginRequest request)
+        {
+            UserLoginResponse response = new UserLoginResponse();
+            _logger.LogInformation($"UserLogin Api Calling {JsonConvert.SerializeObject(request)}");
+            try
+            {
+
+                response = await _crudApplicationSL.UserLogin(request);
+                if (!response.IsSuccess)
+                {
+                    return BadRequest(new { IsSuccess = response.IsSuccess, Message = response.Message });
+                }
+
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = ex.Message;
+                _logger.LogError($"RegisterUser Controller Error => {ex.Message}");
+                return BadRequest(new { IsSuccess = response.IsSuccess, Message = ex.Message });
+            }
+
+            return Ok(new { IsSuccess = response.IsSuccess, Message = response.Message });
+        }
+
+        [HttpPost]
+        //[Route("AddUserInformation")]
         public async Task<IActionResult> AddInformation(AddInformationRequest request)
         {
             AddInformationResponse response = new AddInformationResponse();

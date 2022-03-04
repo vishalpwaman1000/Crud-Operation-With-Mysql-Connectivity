@@ -1,5 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Queries>
+	<RegisterUser>
+		<![CDATA[
+		INSERT INTO userdetail(UserName, PassWord) values (@UserName, @PassWord);
+		]]>
+	</RegisterUser>
+	<UserLogin>
+		<![CDATA[
+		SELECT UserID from userdetail Where UserName=@UserName and PassWord=@PassWord;
+		]]>
+	</UserLogin>
 	<AddInformation>
 		<!-- #UserName, EmailID, MobileNumber, Salary, Gender -->
 		<![CDATA[

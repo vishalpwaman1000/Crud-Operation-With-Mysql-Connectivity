@@ -18,31 +18,18 @@ namespace CrudOperation_MysqlDB.RepositoryLayer
             _crudApplicationRL = crudApplicationRL;
         }
 
+        public async Task<RegisterUserResponse> RegisterUser(RegisterUserRequest request)
+        {
+            return await _crudApplicationRL.RegisterUser(request);
+        }
+        
+        public Task<UserLoginResponse> UserLogin(UserLoginRequest request)
+        {
+            return _crudApplicationRL.UserLogin(request);
+        }
+
         public async Task<AddInformationResponse> AddInformation(AddInformationRequest request)
         {
-            AddInformationResponse response = new AddInformationResponse();
-
-            if (!(Regex.IsMatch(request.EmailID,EmailRegex)))
-            {
-                response.IsSuccess = false;
-                response.Message = "Invalid EmailID Input";
-                return response;
-            }
-
-            if(!(Regex.IsMatch(request.MobileNumber,MobileRegex)))
-            {
-                response.IsSuccess = false;
-                response.Message = "Invalid Mobile Number Input";
-                return response;
-            }
-
-            if (!(Regex.IsMatch(request.Gender.ToLower(), GenderRegex)))
-            {
-                response.IsSuccess = false;
-                response.Message = "Invalid Gender Input. Example : m, M, male, Male, f, F, female, Female";
-                return response;
-            }
-
             return await _crudApplicationRL.AddInformation(request);
         }
 
@@ -80,5 +67,6 @@ namespace CrudOperation_MysqlDB.RepositoryLayer
         {
             return await _crudApplicationRL.UpdateOneInformationById(request);
         }
+
     }
 }

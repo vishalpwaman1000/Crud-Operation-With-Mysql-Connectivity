@@ -15,12 +15,111 @@ namespace CrudOperation_MysqlDB.RepositoryLayer
         public readonly IConfiguration _configuration;
         public readonly ILogger<CrudApplicationRL> _logger;
         public readonly MySqlConnection _mySqlConnection;
+        
         public CrudApplicationRL(IConfiguration configuration, ILogger<CrudApplicationRL> logger)
         {
             _configuration = configuration;
             _logger = logger;
             _mySqlConnection = new MySqlConnection(_configuration["ConnectionStrings:MySqlDBConnection"]);
         }
+
+
+        public async Task<RegisterUserResponse> RegisterUser(RegisterUserRequest request)
+        {
+            RegisterUserResponse response = new RegisterUserResponse();
+            response.IsSuccess = true;
+            response.Message = "Successful";
+            try
+            {
+                if (_mySqlConnection.State != System.Data.ConnectionState.Open)
+                {
+                    await _mySqlConnection.OpenAsync();
+                }
+
+                using (MySqlCommand sqlCommand = new MySqlCommand(SqlQueries.RegisterUser, _mySqlConnection))
+                {
+                    if(request.Password != request.ConfirmPassword)
+                    {
+                        response.IsSuccess = false;
+                        response.Message = "Password Not Match";
+                        return response;
+                    }
+
+                    sqlCommand.CommandType = System.Data.CommandType.Text;
+                    sqlCommand.CommandTimeout = 180;
+                    sqlCommand.Parameters.AddWithValue("@UserName", request.UserName);
+                    sqlCommand.Parameters.AddWithValue("@PassWord", request.Password);
+                    if(await sqlCommand.ExecuteNonQueryAsync() <= 0)
+                    {
+                        response.IsSuccess = false;
+                        response.Message = "Something Went Wrong in Query";
+                        return response;
+                    }
+                }
+
+            }catch(Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = ex.Message;
+            }
+            finally
+            {
+                await _mySqlConnection.CloseAsync();
+                await _mySqlConnection.DisposeAsync();
+            }
+
+            return response;
+        }
+
+        public async Task<UserLoginResponse> UserLogin(UserLoginRequest request)
+        {
+            UserLoginResponse response = new UserLoginResponse();
+            response.IsSuccess = true;
+            response.Message = "Successful";
+
+            try
+            {
+
+                if(_mySqlConnection.State != System.Data.ConnectionState.Open)
+                {
+                    await _mySqlConnection.OpenAsync();
+                }
+
+                using(MySqlCommand sqlCommand= new MySqlCommand(SqlQueries.UserLogin, _mySqlConnection))
+                {
+                    sqlCommand.CommandType = System.Data.CommandType.Text;
+                    sqlCommand.CommandTimeout = 180;
+                    sqlCommand.Parameters.AddWithValue("@UserName", request.UserName);
+                    sqlCommand.Parameters.AddWithValue("@PassWord", request.Password);
+                    using (MySqlDataReader dataReader = await sqlCommand.ExecuteReaderAsync())
+                    {
+                        if (dataReader.HasRows)
+                        {
+                            response.Message = "User Login Successful";
+                        }
+                        else
+                        {
+                            response.IsSuccess = false;
+                            response.Message = "User Login Failed";
+                        }
+                    }
+                }
+
+            }
+            catch(Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = ex.Message;
+            }
+            finally
+            {
+                await _mySqlConnection.CloseAsync();
+                await _mySqlConnection.DisposeAsync();
+            }
+
+            return response;
+        }
+
         public async Task<AddInformationResponse> AddInformation(AddInformationRequest request)
         {
             _logger.LogInformation("AddInformation Repository Layer Calling");
@@ -393,5 +492,6 @@ namespace CrudOperation_MysqlDB.RepositoryLayer
             }
             return response;
         }
+
     }
 }

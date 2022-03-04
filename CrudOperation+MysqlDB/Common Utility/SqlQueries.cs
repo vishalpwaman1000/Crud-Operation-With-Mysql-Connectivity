@@ -12,7 +12,8 @@ namespace CrudOperation_MysqlDB.Common_Utility
             .AddXmlFile("SqlQueries.xml", true, true)
             .Build();
 
-
+        public static string RegisterUser { get { return _sqlQueryConfiguration["RegisterUser"]; } }
+        public static string UserLogin { get { return _sqlQueryConfiguration["UserLogin"]; } }
         public static string AddInformation { get { return _sqlQueryConfiguration["AddInformation"]; } }
         public static string ReadInformation { get { return _sqlQueryConfiguration["ReadInformation"]; } }
         public static string ReadInformationById { get { return _sqlQueryConfiguration["ReadInformationById"]; } }

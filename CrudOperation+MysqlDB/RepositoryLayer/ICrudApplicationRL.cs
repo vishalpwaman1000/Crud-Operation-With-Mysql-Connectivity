@@ -8,6 +8,8 @@ namespace CrudOperation_MysqlDB.RepositoryLayer
 {
     public interface ICrudApplicationRL
     {
+        public Task<RegisterUserResponse> RegisterUser(RegisterUserRequest request);
+        public Task<UserLoginResponse> UserLogin(UserLoginRequest request);
         public Task<AddInformationResponse> AddInformation(AddInformationRequest request);
         public Task<ReadInformationResponse> ReadAllInformation();
         public Task<ReadInformationByIdResponse> ReadInformationById(ReadInformationByIdRequest request);

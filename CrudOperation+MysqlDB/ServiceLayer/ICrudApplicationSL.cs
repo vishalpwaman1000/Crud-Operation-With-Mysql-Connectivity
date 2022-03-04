@@ -9,6 +9,8 @@ namespace CrudOperation_MysqlDB.RepositoryLayer
     public interface ICrudApplicationSL
     {
         //AddInformation,ReadInformation,ReadInformationById,UpdateAllInformationById,UpdateOneInformationById,DeleteInformationByID,DeleteAllInformation
+        public Task<RegisterUserResponse> RegisterUser(RegisterUserRequest request);
+        public Task<UserLoginResponse> UserLogin(UserLoginRequest request);
         public Task<AddInformationResponse> AddInformation(AddInformationRequest request);
         public Task<ReadInformationResponse> ReadAllInformation();
         public Task<ReadInformationByIdResponse> ReadInformationById(ReadInformationByIdRequest request);
