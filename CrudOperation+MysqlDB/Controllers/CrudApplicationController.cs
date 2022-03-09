@@ -1,5 +1,6 @@
 ﻿using CrudOperation_MysqlDB.CommonLayer.Model;
 using CrudOperation_MysqlDB.RepositoryLayer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -13,6 +14,7 @@ namespace CrudOperation_MysqlDB.Controllers
 {
     [Route("api/[controller]/[Action]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
     public class CrudApplicationController : ControllerBase
     {
         public readonly ICrudApplicationSL _crudApplicationSL;
@@ -23,6 +25,7 @@ namespace CrudOperation_MysqlDB.Controllers
             _logger = logger;
         }
 
+        [AllowAnonymous]
         [HttpPost]
         //[Route("AddUserInformation")]
         public async Task<IActionResult> RegisterUser(RegisterUserRequest request)
@@ -50,6 +53,7 @@ namespace CrudOperation_MysqlDB.Controllers
             return Ok(new { IsSuccess = response.IsSuccess, Message = response.Message });
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> UserLogin(UserLoginRequest request)
         {
@@ -73,9 +77,10 @@ namespace CrudOperation_MysqlDB.Controllers
                 return BadRequest(new { IsSuccess = response.IsSuccess, Message = ex.Message });
             }
 
-            return Ok(new { IsSuccess = response.IsSuccess, Message = response.Message });
+            return Ok(new { IsSuccess = response.IsSuccess, Message = response.Message, Data = response.Token });
         }
 
+        [Authorize(Roles = "User")]
         [HttpPost]
         //[Route("AddUserInformation")]
         public async Task<IActionResult> AddInformation(AddInformationRequest request)
@@ -103,6 +108,7 @@ namespace CrudOperation_MysqlDB.Controllers
             return Ok(new { IsSuccess = response.IsSuccess, Message = response.Message });
         }
 
+        [Authorize(Roles = "User")]
         [HttpGet]
         //[Route("ReadInformation")]
         public async Task<IActionResult> ReadAllInformation()
@@ -129,6 +135,7 @@ namespace CrudOperation_MysqlDB.Controllers
             return Ok(new { IsSuccess = response.IsSuccess, Message = response.Message, Data = response.readInformation });
         }
 
+        [Authorize(Roles = "User")]
         [HttpPost]
         //[Route("ReadInformationById")]
         public async Task<IActionResult> ReadInformationById(ReadInformationByIdRequest request)
@@ -156,6 +163,7 @@ namespace CrudOperation_MysqlDB.Controllers
             return Ok(new { IsSuccess = response.IsSuccess, Message = response.Message, Data = response.readInformation });
         }
 
+        [Authorize(Roles = "User")]
         [HttpPut]
         //[Route("UpdateAllInformationById")]
         public async Task<IActionResult> UpdateAllInformationById(UpdateAllInformationByIdRequest request)
@@ -183,6 +191,7 @@ namespace CrudOperation_MysqlDB.Controllers
             return Ok(new { IsSuccess = response.IsSuccess, Message = response.Message });
         }
 
+        [Authorize(Roles = "User")]
         [HttpPatch]
         //[Route("UpdateOneInformationById")]
         public async Task<IActionResult> UpdateOneInformationById(UpdateOneInformationByIdRequest request)
@@ -210,6 +219,7 @@ namespace CrudOperation_MysqlDB.Controllers
             return Ok(new { IsSuccess = response.IsSuccess, Message = response.Message });
         }
 
+        [Authorize(Roles = "User")]
         [HttpDelete]
         //[Route("DeleteInformationByID")]
         public async Task<IActionResult> DeleteInformationByID(DeleteInformationByIDRequest request)
@@ -237,6 +247,7 @@ namespace CrudOperation_MysqlDB.Controllers
 
         }
 
+        [Authorize(Roles = "User")]
         [HttpPost]
         //[Route("DeleteAllInformation")]
         public async Task<IActionResult> GetAllDeleteInformation()
@@ -264,6 +275,7 @@ namespace CrudOperation_MysqlDB.Controllers
             return Ok(new { IsSuccess = response.IsSuccess, Message = response.Message, Data=response.deletedInformation });
         }
 
+        [Authorize(Roles = "User")]
         [HttpPost]
         //[Route("DeleteAllInformation")]
         public async Task<IActionResult> DeleteAllActiveInformation()

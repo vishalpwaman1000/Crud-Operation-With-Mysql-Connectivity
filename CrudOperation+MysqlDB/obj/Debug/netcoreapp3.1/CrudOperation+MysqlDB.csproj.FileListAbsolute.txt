@@ -60,3 +60,13 @@ D:\Vishalpwaman1000\Crud-Operation-With-Mysql-Connectivity\CrudOperation+MysqlDB
 D:\Vishalpwaman1000\Crud-Operation-With-Mysql-Connectivity\CrudOperation+MysqlDB\obj\Debug\netcoreapp3.1\CrudOperation+MysqlDB.dll
 D:\Vishalpwaman1000\Crud-Operation-With-Mysql-Connectivity\CrudOperation+MysqlDB\obj\Debug\netcoreapp3.1\CrudOperation+MysqlDB.pdb
 D:\Vishalpwaman1000\Crud-Operation-With-Mysql-Connectivity\CrudOperation+MysqlDB\obj\Debug\netcoreapp3.1\CrudOperation+MysqlDB.genruntimeconfig.cache
+C:\Users\visha\source\repos\CrudOperation+MysqlDB\BackEnd\CrudOperation+MysqlDB\bin\Debug\netcoreapp3.1\System.Net.Http.Formatting.dll
+C:\Users\visha\source\repos\CrudOperation+MysqlDB\BackEnd\CrudOperation+MysqlDB\bin\Debug\netcoreapp3.1\System.Web.Http.dll
+C:\Users\visha\source\repos\CrudOperation+MysqlDB\BackEnd\CrudOperation+MysqlDB\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\visha\source\repos\CrudOperation+MysqlDB\BackEnd\CrudOperation+MysqlDB\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\visha\source\repos\CrudOperation+MysqlDB\BackEnd\CrudOperation+MysqlDB\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Logging.dll
+C:\Users\visha\source\repos\CrudOperation+MysqlDB\BackEnd\CrudOperation+MysqlDB\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Protocols.dll
+C:\Users\visha\source\repos\CrudOperation+MysqlDB\BackEnd\CrudOperation+MysqlDB\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\visha\source\repos\CrudOperation+MysqlDB\BackEnd\CrudOperation+MysqlDB\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Tokens.dll
+C:\Users\visha\source\repos\CrudOperation+MysqlDB\BackEnd\CrudOperation+MysqlDB\bin\Debug\netcoreapp3.1\Swashbuckle.Core.dll
+C:\Users\visha\source\repos\CrudOperation+MysqlDB\BackEnd\CrudOperation+MysqlDB\bin\Debug\netcoreapp3.1\System.IdentityModel.Tokens.Jwt.dll

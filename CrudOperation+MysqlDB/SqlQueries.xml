@@ -2,12 +2,12 @@
 <Queries>
 	<RegisterUser>
 		<![CDATA[
-		INSERT INTO userdetail(UserName, PassWord) values (@UserName, @PassWord);
+		INSERT INTO userdetail(UserName, PassWord, Role) values (@UserName, @PassWord, @Role);
 		]]>
 	</RegisterUser>
 	<UserLogin>
 		<![CDATA[
-		SELECT UserID from userdetail Where UserName=@UserName and PassWord=@PassWord;
+		SELECT UserId, UserName, Role from userdetail Where UserName=@UserName and PassWord=@PassWord;
 		]]>
 	</UserLogin>
 	<AddInformation>
