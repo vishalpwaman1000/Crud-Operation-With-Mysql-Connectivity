@@ -16,6 +16,9 @@ namespace CrudOperation_MysqlDB.CommonLayer.Model
 
         [Required(ErrorMessage ="Confirm Password Is Required")]
         public string ConfirmPassword { get; set; }
+
+        [Required(ErrorMessage ="Role Is Required To Identified Users")]
+        public string Role { get; set; }
     }
 
     public class RegisterUserResponse

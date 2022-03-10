@@ -7,7 +7,10 @@
 	</RegisterUser>
 	<UserLogin>
 		<![CDATA[
-		SELECT UserId, UserName, Role from userdetail Where UserName=@UserName and PassWord=@PassWord;
+		SELECT UserId, UserName, Role 
+		from userdetail 
+		Where UserName=@UserName and 
+		      PassWord=@PassWord;
 		]]>
 	</UserLogin>
 	<AddInformation>

@@ -1,5 +1,7 @@
 ﻿using CrudOperation_MysqlDB.CommonLayer.Model;
 using CrudOperation_MysqlDB.RepositoryLayer;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -8,13 +10,15 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace CrudOperation_MysqlDB.Controllers
 {
     [Route("api/[controller]/[Action]")]
     [ApiController]
-    [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
+    //[Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)] //Jwt
+    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]  //Cookies
     public class CrudApplicationController : ControllerBase
     {
         public readonly ICrudApplicationSL _crudApplicationSL;
@@ -66,6 +70,24 @@ namespace CrudOperation_MysqlDB.Controllers
                 if (!response.IsSuccess)
                 {
                     return BadRequest(new { IsSuccess = response.IsSuccess, Message = response.Message });
+                }
+                else
+                {
+                    //GenerateCookies(response.data.Email, response.data.UserId, response.data.Role);
+                    var claims = new List<Claim>
+                    {
+                        new Claim(ClaimTypes.Email, response.data.Email),
+                        new Claim(ClaimTypes.PrimarySid, response.data.UserId),
+                        new Claim(ClaimTypes.Role, response.data.Role),
+                        new Claim("Roles", response.data.Role)
+                    };
+
+                    var claimsIdentity = new ClaimsIdentity(
+                        claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                    await HttpContext.SignInAsync(
+                        CookieAuthenticationDefaults.AuthenticationScheme,
+                        new ClaimsPrincipal(claimsIdentity));
                 }
 
             }
@@ -302,6 +324,24 @@ namespace CrudOperation_MysqlDB.Controllers
 
             return Ok(new { IsSuccess = response.IsSuccess, Message = response.Message });
         }
+
+        /*public async void GenerateCookies(string Email, string UserID, string Role)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Email, Email),
+                new Claim(ClaimTypes.PrimarySid, UserID),
+                new Claim(ClaimTypes.Role, Role)
+            };
+
+            var claimsIdentity = new ClaimsIdentity(
+                claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+            await HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(claimsIdentity));
+
+        }*/
 
     }
 }

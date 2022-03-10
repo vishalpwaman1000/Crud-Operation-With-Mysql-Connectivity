@@ -1,5 +1,6 @@
 ﻿using CrudOperation_MysqlDB.Common_Utility;
 using CrudOperation_MysqlDB.CommonLayer.Model;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
@@ -7,7 +8,7 @@ using MySqlConnector;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
+using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,7 +20,7 @@ namespace CrudOperation_MysqlDB.RepositoryLayer
         public readonly IConfiguration _configuration;
         public readonly ILogger<CrudApplicationRL> _logger;
         public readonly MySqlConnection _mySqlConnection;
-        
+
         public CrudApplicationRL(IConfiguration configuration, ILogger<CrudApplicationRL> logger)
         {
             _configuration = configuration;
@@ -42,7 +43,7 @@ namespace CrudOperation_MysqlDB.RepositoryLayer
 
                 using (MySqlCommand sqlCommand = new MySqlCommand(SqlQueries.RegisterUser, _mySqlConnection))
                 {
-                    if(request.Password != request.ConfirmPassword)
+                    if (request.Password != request.ConfirmPassword)
                     {
                         response.IsSuccess = false;
                         response.Message = "Password Not Match";
@@ -53,7 +54,8 @@ namespace CrudOperation_MysqlDB.RepositoryLayer
                     sqlCommand.CommandTimeout = 180;
                     sqlCommand.Parameters.AddWithValue("@UserName", request.UserName);
                     sqlCommand.Parameters.AddWithValue("@PassWord", request.Password);
-                    if(await sqlCommand.ExecuteNonQueryAsync() <= 0)
+                    sqlCommand.Parameters.AddWithValue("@Role", request.Role);
+                    if (await sqlCommand.ExecuteNonQueryAsync() <= 0)
                     {
                         response.IsSuccess = false;
                         response.Message = "Something Went Wrong in Query";
@@ -61,7 +63,8 @@ namespace CrudOperation_MysqlDB.RepositoryLayer
                     }
                 }
 
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 response.IsSuccess = false;
                 response.Message = ex.Message;
@@ -84,12 +87,12 @@ namespace CrudOperation_MysqlDB.RepositoryLayer
             try
             {
 
-                if(_mySqlConnection.State != System.Data.ConnectionState.Open)
+                if (_mySqlConnection.State != System.Data.ConnectionState.Open)
                 {
                     await _mySqlConnection.OpenAsync();
                 }
 
-                using(MySqlCommand sqlCommand= new MySqlCommand(SqlQueries.UserLogin, _mySqlConnection))
+                using (MySqlCommand sqlCommand = new MySqlCommand(SqlQueries.UserLogin, _mySqlConnection))
                 {
                     sqlCommand.CommandType = System.Data.CommandType.Text;
                     sqlCommand.CommandTimeout = 180;
@@ -99,12 +102,13 @@ namespace CrudOperation_MysqlDB.RepositoryLayer
                     {
                         if (dataReader.HasRows)
                         {
+                            response.data = new UserInformation();
                             await dataReader.ReadAsync();
                             response.Message = "User Login Successful";
-                            string Email = dataReader["UserName"] !=DBNull.Value? dataReader["UserName"].ToString():string.Empty;//UserID, Role
-                            string Role = dataReader["Role"] != DBNull.Value ? dataReader["Role"].ToString() : string.Empty; 
-                            int UserId = dataReader["UserId"] != DBNull.Value ? Convert.ToInt32(dataReader["UserId"]) : 0;
-                            response.Token = GenerateJWT(UserId, Email, Role);
+                            response.data.Email = dataReader["UserName"] != DBNull.Value ? dataReader["UserName"].ToString() : string.Empty;//UserID, Role
+                            response.data.Role = dataReader["Role"] != DBNull.Value ? dataReader["Role"].ToString() : string.Empty;
+                            response.data.UserId = dataReader["UserId"] != DBNull.Value ? Convert.ToString(dataReader["UserId"]) : string.Empty;
+                            response.Token = GenerateJWT(response.data.UserId, response.data.Email, response.data.Role);
                         }
                         else
                         {
@@ -115,7 +119,7 @@ namespace CrudOperation_MysqlDB.RepositoryLayer
                 }
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 response.IsSuccess = false;
                 response.Message = ex.Message;
@@ -502,7 +506,7 @@ namespace CrudOperation_MysqlDB.RepositoryLayer
             return response;
         }
 
-        public string GenerateJWT(int UserId, string Email, string Role)
+        public string GenerateJWT(string UserId, string Email, string Role)
         {
 
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
@@ -510,7 +514,7 @@ namespace CrudOperation_MysqlDB.RepositoryLayer
 
             //claim is used to add identity to JWT token
             var claims = new[] {
-                new Claim(JwtRegisteredClaimNames.Sid, UserId.ToString()),
+                new Claim(JwtRegisteredClaimNames.Sid, UserId),
                  new Claim(JwtRegisteredClaimNames.Email, Email),
                  new Claim("Roles", Role),
                  new Claim(ClaimTypes.Role,Role),
@@ -527,5 +531,7 @@ namespace CrudOperation_MysqlDB.RepositoryLayer
             string Data = new JwtSecurityTokenHandler().WriteToken(token); //return access token 
             return Data;
         }
+
+
     }
 }
