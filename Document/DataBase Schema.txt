@@ -1,0 +1,23 @@
+#Mysql DataBase
+
+create table CrudApplication(
+UserId int auto_increment primary key,
+UserName varchar(255) Not Null,
+EmailID varchar(255) Not Null,
+MobileNumber varchar(255) default 'NA',
+Salary int default 0,
+Gender varchar(10) default null,
+Role varchar(10) default 'User',
+IsActive bit default 1
+);
+
+#sql/Mysql Server
+
+create table UserDetail(
+UserId int identity(1,1) primary key,
+UserName varchar(255),
+PassWord varchar(255),
+Role varchar(20),
+InsertionDate datetime default current_timestamp,
+IsActive bit default 1
+)

@@ -1,0 +1,7 @@
+Regex Pattern
+
+EmailRegex : @"^[0-9a-zA-Z]+([._+-][0-9a-zA-Z]+)*@[0-9a-zA-Z]+.[a-zA-Z]{2,4}([.][a-zA-Z]{2,3})?$";
+
+MobileRegex : @"([1-9]{1}[0-9]{9})$";
+
+GenderRegex : @"^(?:m|M|male|Male|f|F|female|Female)$";
